@@ -396,6 +396,30 @@
 	transition: all 0.2s ease;
 }
 
+.footer-link {
+	display: inline-flex;
+	color: #a78bfa;
+	text-decoration: none;
+	letter-spacing: 5px;
+}
+
+.footer-link span {
+	display: inline-block;
+	animation: wave 1.2s ease-in-out infinite;
+	animation-delay: calc(var(--index) * 0.12s);
+}
+
+@keyframes wave {
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+
+	50% {
+		transform: translateY(-7px);
+	}
+}
+
 @media (max-width: 360px) {
 	.app {
 		padding-inline: 14px;

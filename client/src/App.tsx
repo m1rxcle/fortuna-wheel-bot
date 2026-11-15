@@ -235,7 +235,15 @@ function App() {
 				</section>
 
 				<footer className="footer">
-					MADE WITH <span>♥</span> FOR FOOD LOVERS
+					MADE BY{" "}
+					<a className="footer-link" href="https://github.com/m1rxcle" target="_blank" rel="noopener noreferrer">
+						{"M1RXCLE".split("").map((letter, index) => (
+							<span key={index} style={{ "--index": index } as React.CSSProperties}>
+								{letter}
+							</span>
+						))}
+					</a>
+					WITH <span style={{ fontSize: "16px" }}>♥</span>
 				</footer>
 			</section>
 			{openModal && <ChangeMealsModal setOpenModal={setOpenModal} selectedMeal={selectedMeal} onSave={handleUpdateMeal} />}

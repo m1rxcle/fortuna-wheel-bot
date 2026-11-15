@@ -170,7 +170,7 @@ function App() {
 					<div className="wheel-description-container">
 						<p className="wheel-description">{selectedMeal.subtitle}</p>
 						<button onClick={() => setOpenModal(true)} className="wheel-change-dish-button">
-							⚙ Изменить блюда
+							⚙ Изменить
 						</button>
 					</div>
 
@@ -215,7 +215,7 @@ function App() {
 						<div className="dish-preview">
 							<span className="dish-preview-label">Сегодня вам выпало: </span>
 							<div className="dish-list">
-								<h3>{result[category]}</h3>
+								✨<h3>{result[category]}</h3>✨
 							</div>
 						</div>
 					)}

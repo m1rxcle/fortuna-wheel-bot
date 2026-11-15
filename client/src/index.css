@@ -1,0 +1,25 @@
+:root {
+	font-family: Inter, system-ui, sans-serif;
+	color: var(--tg-theme-text-color, #ffffff);
+	background: var(--tg-bg-color, #101014);
+
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	min-width: 320px;
+	min-height: 100vh;
+	background: var(--tg-bg-color, #101014);
+}
+
+button {
+	font: inherit;
+}

@@ -11,10 +11,9 @@ type MealCategory = TMealType["id"]
 function App() {
 	const [category, setCategory] = useState<MealCategory>("breakfast")
 	const [result, setResult] = useState<Record<MealCategory, string | null>>({
-		//TODO: Uncomment the localStorage lines if you want to persist results across sessions
-		breakfast: /* localStorage.getItem("breakfastResult") || */ null,
-		lunch: /* localStorage.getItem("lunchResult") || */ null,
-		dinner: /* localStorage.getItem("dinnerResult") || */ null,
+		breakfast: localStorage.getItem("breakfastResult") || null,
+		lunch: localStorage.getItem("lunchResult") || null,
+		dinner: localStorage.getItem("dinnerResult") || null,
 	})
 
 	const [rotation, setRotation] = useState(0)

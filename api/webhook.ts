@@ -9,7 +9,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 		return res.status(405).send("Method Not Allowed")
 	}
 
-	const secret = process.env.TELEGRAM_WEBHOOK_SECRET
+	const secret = process.env.TELEGRAM_SECRET
 
 	if (!secret || req.headers["x-telegram-bot-api-secret-token"] !== secret) {
 		return res.status(403).send("Forbidden")

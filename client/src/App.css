@@ -311,6 +311,7 @@
 	position: fixed;
 	top: 0;
 	left: 0;
+	right: 0;
 	margin: 50px auto;
 	display: flex;
 	flex-direction: column;
@@ -324,9 +325,10 @@
 	overflow: scroll;
 	scrollbar-width: none;
 
+	border: 2px solid #292735;
 	padding: 24px 20px 20px;
 
-	background: #000;
+	background: linear-gradient(110deg, #202029, #101014);
 	color: white;
 }
 
@@ -343,7 +345,7 @@
 }
 
 .modal-category-span {
-	font-size: 20px;
+	font-size: 16px;
 	font-weight: 800;
 	color: #a78bfa;
 }
@@ -365,12 +367,13 @@
 
 .modal-body-container input {
 	width: 100%;
-	padding: 5px 10px;
+	padding: 8px 10px;
 	background: #191820;
 	border: 1px solid #292735;
-	border-radius: 10px;
+	border-radius: 5px;
 	color: white;
-	font-size: 16px;
+	font-size: 12px;
+	font-weight: 600;
 }
 .modal-body-container input:focus {
 	outline: none;
@@ -384,8 +387,7 @@
 
 .modal-save-button {
 	width: 100%;
-	min-height: 56px;
-	margin-top: 5px;
+	padding: 14px 12px;
 	color: white;
 	background: linear-gradient(110deg, #7950d5, #a78bfa);
 	border: 0;

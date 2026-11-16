@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import type { TMealType } from "../constants/app.constant"
+import { formatNumberOfDish } from "../utils/format-number-of-dish"
 
 interface Props {
 	selectedMeal: TMealType
@@ -9,23 +10,6 @@ interface Props {
 
 export const ChangeMealsModal: React.FC<Props> = ({ selectedMeal, setOpenModal, onSave }) => {
 	const [newDish, setNewDish] = useState<string[]>(selectedMeal.dishes)
-
-	const formatNumberOfDish = (numberOfDish: number) => {
-		switch (numberOfDish) {
-			case 1:
-				return "Первое"
-			case 2:
-				return "Второе"
-			case 3:
-				return "Третье"
-			case 4:
-				return "Четвертое"
-			case 5:
-				return "Пятое"
-			default:
-				return `${numberOfDish}-e`
-		}
-	}
 
 	const handleChangeDish = (index: number, value: string) => {
 		setNewDish((prev) => prev.map((dish, i) => (i === index ? value : dish)))
@@ -49,12 +33,20 @@ export const ChangeMealsModal: React.FC<Props> = ({ selectedMeal, setOpenModal, 
 			</div>
 			<div className="modal-body-container">
 				<p className="modal-header-title">
-					Изменить блюда для выбранной категории: <span className="modal-category-span">{selectedMeal.title}</span>
+					Изменить блюда для категории: <span className="modal-category-span">{selectedMeal.title}</span>
 				</p>
 				{selectedMeal.dishes.map((dish, index) => (
 					<div key={index} className="modal-body-item">
 						<p>{formatNumberOfDish(index + 1)} блюдо: </p>
-						<input maxLength={18} type="text" value={newDish[index]} onChange={(e) => handleChangeDish(index, e.target.value)} placeholder={dish} />
+						<input
+							id={`${index + 1}`}
+							name={dish}
+							maxLength={18}
+							type="text"
+							value={newDish[index]}
+							onChange={(e) => handleChangeDish(index, e.target.value)}
+							placeholder={dish}
+						/>
 					</div>
 				))}
 			</div>

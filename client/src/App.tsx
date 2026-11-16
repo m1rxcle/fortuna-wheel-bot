@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { meals, type TMealType } from "./constants/app.constant"
-import { formatTime } from "./utils/format-date"
 import { getRandomOffset, spinWheel } from "./utils/spin-wheel"
 
 import "./App.css"
 import { ChangeMealsModal } from "./components/change-meals-modal"
+import useStorage from "./hooks/useStorage"
 
-type MealCategory = TMealType["id"]
+export type MealCategory = TMealType["id"]
 
 function App() {
 	const [category, setCategory] = useState<MealCategory>("breakfast")
@@ -14,6 +14,12 @@ function App() {
 		breakfast: localStorage.getItem("breakfastResult") || null,
 		lunch: localStorage.getItem("lunchResult") || null,
 		dinner: localStorage.getItem("dinnerResult") || null,
+	})
+
+	const [isUsed, setIsUsed] = useState<Record<MealCategory, boolean>>({
+		breakfast: !!localStorage.getItem("breakfastResult"),
+		lunch: !!localStorage.getItem("lunchResult"),
+		dinner: !!localStorage.getItem("dinnerResult"),
 	})
 
 	const [rotation, setRotation] = useState(0)
@@ -34,6 +40,8 @@ function App() {
 			return meals
 		}
 	})
+
+	const { saveToLocalStorageResult } = useStorage({ initialMeals, setTimeLeft, setResult, setIsUsed })
 
 	const selectedMeal = initialMeals.find((meal) => meal.id === category) ?? meals[0]
 
@@ -63,58 +71,14 @@ function App() {
 			...prev,
 			[category]: null,
 		}))
+		setIsUsed((prev) => ({
+			...prev,
+			[category]: true,
+		}))
 		setPendingResult(selectedDish)
 		setIsSpinning(true)
 		setRotation(nextRotation)
 	}
-
-	const saveToLocalStorageResult = (category: MealCategory, dish: string) => {
-		if (typeof window === "undefined") return
-
-		if (!category || !dish) return
-
-		const breakfastResult = localStorage.getItem("breakfastResult")
-		const lunchResult = localStorage.getItem("lunchResult")
-		const dinnerResult = localStorage.getItem("dinnerResult")
-
-		if (category === "breakfast" && (!breakfastResult || breakfastResult !== dish)) {
-			localStorage.setItem("breakfastResult", dish)
-		} else if (category === "lunch" && (!lunchResult || lunchResult !== dish)) {
-			localStorage.setItem("lunchResult", dish)
-		} else if (category === "dinner" && (!dinnerResult || dinnerResult !== dish)) {
-			localStorage.setItem("dinnerResult", dish)
-		}
-	}
-
-	useEffect(() => {
-		localStorage.setItem("meals", JSON.stringify(initialMeals))
-	}, [initialMeals])
-
-	useEffect(() => {
-		const updateTimeLeft = () => {
-			const now = new Date()
-			const nextDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)
-			const diff = nextDay.getTime() - now.getTime()
-
-			if (diff <= 0) {
-				localStorage.removeItem("breakfastResult")
-				localStorage.removeItem("lunchResult")
-				localStorage.removeItem("dinnerResult")
-				setResult({
-					breakfast: null,
-					lunch: null,
-					dinner: null,
-				})
-			} else {
-				setTimeLeft(formatTime(diff))
-			}
-		}
-
-		updateTimeLeft()
-		const intervalId = setInterval(updateTimeLeft, 1000)
-
-		return () => clearInterval(intervalId)
-	}, [])
 
 	return (
 		<main className="app">
@@ -184,6 +148,7 @@ function App() {
 										...prev,
 										[category]: pendingResult,
 									}))
+
 									setPendingResult(null)
 									setIsSpinning(false)
 								}
@@ -220,7 +185,7 @@ function App() {
 						</div>
 					)}
 
-					<button onClick={handleSpinWheel} className="spin-button" disabled={!!result[category] || isSpinning}>
+					<button onClick={handleSpinWheel} className="spin-button" disabled={isUsed[category] || isSpinning}>
 						<span>✦</span>
 						{!result[category] && isSpinning && "Колесо вращается..."}
 						{!result[category] && !isSpinning && "Крутить колесо"}
